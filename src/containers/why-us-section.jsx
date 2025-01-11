@@ -26,7 +26,7 @@ export function WhyUsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true }}
-            className='rounded-lg border border-white/10 bg-black/50 p-6 backdrop-blur-xl'
+            className='rounded-lg border border-white/10 bg-black/50 p-6 backdrop-blur-xl hover:bg-neutral-900'
           >
             <div className='flex h-12 w-12 items-center justify-center rounded-lg bg-neutral-50 text-neutral-950 hover:bg-neutral-200'>
               <Headset className='h-6 w-6' />
@@ -64,7 +64,7 @@ export function WhyUsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             viewport={{ once: true }}
-            className='rounded-lg border border-white/10 bg-black/50 p-6 backdrop-blur-xl'
+            className='rounded-lg border border-white/10 bg-black/50 p-6 backdrop-blur-xl hover:bg-neutral-900'
           >
             <div className='flex h-12 w-12 items-center justify-center rounded-lg bg-neutral-50 text-neutral-950 hover:bg-neutral-200'>
               <CalendarCheck className='h-6 w-6' />

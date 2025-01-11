@@ -18,7 +18,7 @@ export const RHFTextArea = React.memo(
               {...field}
               placeholder={placeholder}
               rows={rows}
-              className='flex min-h-[80px] w-full rounded-md border text-white border-input bg-transparent px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
+              className='flex min-h-[80px] resize-none w-full rounded-md border text-white border-input bg-black/50  px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground disabled:opacity-50'
             />
             {errors && (
               <p className='text-xs text-start text-red-500 transition-all duration-500 '>

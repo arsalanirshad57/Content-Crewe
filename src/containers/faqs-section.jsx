@@ -92,7 +92,7 @@ export function FaqsSection() {
           <Accordion type='single' collapsible>
             {faqsData?.map((faq, index) => (
               <AccordionItem key={index} value={`faq-${index}`}>
-                <AccordionTrigger className='text-white text-start'>
+                <AccordionTrigger className='text-white text-start text-sm md:text-base'>
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent>
