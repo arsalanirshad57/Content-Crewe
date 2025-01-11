@@ -8,6 +8,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { motion } from 'framer-motion';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '@/config/firebase';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email().required('Email is required'),
@@ -30,13 +34,27 @@ export const LoginScreen = React.memo(() => {
     formState: { errors },
   } = methods;
 
+  const router = useRouter(); 
+
   const onSubmit = (data) => {
-    console.log('Form Data:', data);
+    const { email, password } = data; 
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log('Logged in user:', user);
+        toast.success('user Login Sucessfully')
+        router.push('/'); 
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        toast.error(errorMessage)
+      });
   };
 
   return (
-    <div className='flex items-center justify-center min-h-screen '>
-      <div className='flex flex-col gap-5 p-8 shadow-lg rounded-md max-w-md w-full '>
+    <div className='flex items-center justify-center min-h-screen'>
+      <div className='flex flex-col gap-5 p-8 shadow-lg rounded-md max-w-md w-full'>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -45,7 +63,7 @@ export const LoginScreen = React.memo(() => {
           className='mx-auto'
         >
           <Link href='/' className='mx-auto mb-4'>
-            <img src='/logoWithText.png' alt='logo' className=' h-12' />
+            <img src='/logoWithText.png' alt='logo' className='h-12' />
           </Link>
         </motion.div>
         <motion.div
@@ -55,10 +73,10 @@ export const LoginScreen = React.memo(() => {
           viewport={{ once: true }}
         >
           <div className='flex flex-col gap-1'>
-            <h2 className=' text-2xl md:text-3xl font-semibold text-white'>
+            <h2 className='text-2xl md:text-3xl font-semibold text-white'>
               Login
             </h2>
-            <h2 className='text-sm font-medium  text-neutral-400 text-start'>
+            <h2 className='text-sm font-medium text-neutral-400 text-start'>
               Welcome back! Please
             </h2>
           </div>
@@ -78,14 +96,14 @@ export const LoginScreen = React.memo(() => {
               name='email'
               placeholder='Enter your Email'
               label='Email'
-              error={errors.name?.message}
+              error={errors.email?.message} 
             />
             <RHFInput
               name='password'
               type='password'
               placeholder='Enter your Password'
               label='Password'
-              error={errors.password?.message}
+              error={errors.password?.message} 
             />
             <Button type='submit'>Login</Button>
           </FormProvider>
@@ -104,7 +122,6 @@ export const LoginScreen = React.memo(() => {
           </p>
         </motion.div>
       </div>
-      {/* Background gradient */}
       <div className='absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-neutral-900 via-neutral-950 to-neutral-950' />
     </div>
   );
