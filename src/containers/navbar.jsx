@@ -34,10 +34,15 @@ export function Navbar() {
               <Link href='#contact' className='text-sm hover:text-white/80'>
                 Contact
               </Link>
-              <Button variant='ghost' className='text-sm'>
-                Login
-              </Button>
-              <Button>Sign Up</Button>
+              <Link href='/auth/login'>
+                <Button variant='ghost' className='text-sm'>
+                  Login
+                </Button>
+              </Link>
+
+              <Link href='/auth/signup'>
+                <Button className='w-full'>Sign Up</Button>
+              </Link>
             </div>
           </div>
 
@@ -92,7 +97,9 @@ export function Navbar() {
               </Link>
             </div>
             <div className='px-3 py-2'>
-              <Button className='w-full'>Sign Up</Button>
+              <Link href='/auth/signup'>
+                <Button className='w-full'>Sign Up</Button>
+              </Link>
             </div>
           </div>
         </div>
