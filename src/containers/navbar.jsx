@@ -1,12 +1,29 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
-
+import { getAuth, signOut } from 'firebase/auth';
+import { auth } from '@/config/firebase';
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const auth = getAuth();
+    setUser(auth.currentUser);
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe(); 
+  }, []);
+
+  const handleLogout = async () => {
+    const auth = getAuth();
+    await signOut(auth);
+    setUser(null);
+  };
 
   return (
     <nav className='fixed top-0 z-50 w-full border-b border-white/10 backdrop-blur-xl'>
@@ -34,15 +51,22 @@ export function Navbar() {
               <Link href='#contact' className='text-sm hover:text-white/80'>
                 Contact
               </Link>
-              <Link href='/auth/login'>
-                <Button variant='ghost' className='text-sm'>
-                  Login
+              {user ? (
+                <Button variant='ghost' className='text-sm' onClick={handleLogout}>
+                  Logout
                 </Button>
-              </Link>
-
-              <Link href='/auth/signup'>
-                <Button className='w-full'>Sign Up</Button>
-              </Link>
+              ) : (
+                <>
+                  <Link href='/auth/login'>
+                    <Button variant='ghost' className='text-sm'>
+                      Login
+                    </Button>
+                  </Link>
+                  <Link href='/auth/signup'>
+                    <Button className='w-full'>Sign Up</Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 
@@ -54,17 +78,12 @@ export function Navbar() {
               onClick={() => setIsOpen(!isOpen)}
               className='inline-flex items-center justify-center  text-white'
             >
-              {isOpen ? (
-                <X className='h-6 w-6' />
-              ) : (
-                <Menu className='h-6 w-6' />
-              )}
+              {isOpen ? <X className='h-6 w-6' /> : <Menu className='h-6 w-6' />}
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
       {isOpen && (
         <div className='md:hidden'>
           <div className='space-y-1 px-2 pb-3 pt-2'>
@@ -86,21 +105,33 @@ export function Navbar() {
             >
               Contact
             </Link>
-            <div className='px-3 py-2'>
-              <Link href='/auth/login'>
-                <Button
-                  variant='ghost'
-                  className='w-full justify-start text-white text-base'
-                >
-                  Login
-                </Button>
-              </Link>
-            </div>
-            <div className='px-3 py-2'>
-              <Link href='/auth/signup'>
-                <Button className='w-full'>Sign Up</Button>
-              </Link>
-            </div>
+            {user ? (
+              <Button
+                variant='ghost'
+                className='w-full justify-start text-white text-base'
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+            ) : (
+              <>
+                <div className='px-3 py-2'>
+                  <Link href='/auth/login'>
+                    <Button
+                      variant='ghost'
+                      className='w-full justify-start text-white text-base'
+                    >
+                      Login
+                    </Button>
+                  </Link>
+                </div>
+                <div className='px-3 py-2'>
+                  <Link href='/auth/signup'>
+                    <Button className='w-full'>Sign Up</Button>
+                  </Link>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

@@ -8,7 +8,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { motion } from 'framer-motion';
-
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '@/config/firebase';
 const SignUpSchema = Yup.object().shape({
   fullName: Yup.string().required('Full Name is required'),
   email: Yup.string()
@@ -34,14 +35,24 @@ export const SignUpScreen = React.memo(() => {
   });
 
   const {
-    handleSubmit,
-    formState: { errors },
+    handleSubmit,formState: { errors },
   } = methods;
 
   const onSubmit = (data) => {
-    console.log('Form Data:', data);
+    const { email, password } = data; 
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        toast.success('user Register Sucessfully')
+        
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        toast.error(errorMessage)
+      });
   };
-
+  
   return (
     <div className='flex items-center justify-center min-h-screen'>
       <div className='flex flex-col gap-5 p-8 max-w-md w-full'>
