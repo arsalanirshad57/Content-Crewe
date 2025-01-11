@@ -65,19 +65,19 @@ export function Navbar() {
           <div className='space-y-1 px-2 pb-3 pt-2'>
             <Link
               href='/features'
-              className='block px-3 py-2 text-base hover:bg-white/5'
+              className='block px-3 py-2 text-base text-white hover:bg-white/5'
             >
               Features
             </Link>
             <Link
               href='/pricing'
-              className='block px-3 py-2 text-base hover:bg-white/5'
+              className='block px-3 py-2 text-base text-white hover:bg-white/5'
             >
               Pricing
             </Link>
             <Link
               href='/contact'
-              className='block px-3 py-2 text-base hover:bg-white/5'
+              className='block px-3 py-2 text-base text-white hover:bg-white/5'
             >
               Contact
             </Link>
@@ -85,7 +85,7 @@ export function Navbar() {
               <Link href='/auth/login'>
                 <Button
                   variant='ghost'
-                  className='w-full justify-start text-base'
+                  className='w-full justify-start text-white text-base'
                 >
                   Login
                 </Button>
