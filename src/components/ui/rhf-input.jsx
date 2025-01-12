@@ -29,7 +29,7 @@ const RHFInput = ({ name, type, placeholder, className, readOnly }) => {
               readOnly={readOnly}
               autoComplete='off'
               className={cn(
-                'flex h-10 w-full py-2 text-sm bg-transparent text-white ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus:outline-none outline-none  disabled:cursor-not-allowed disabled:opacity-50',
+                'flex h-10 w-full py-2 !text-sm bg-transparent text-white ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus:outline-none outline-none  disabled:cursor-not-allowed disabled:opacity-50',
                 className
               )}
             />
