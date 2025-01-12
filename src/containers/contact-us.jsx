@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import RHFInput from '@/components/ui/rhf-input';
 import { Button } from '@/components/ui/button';
+import ShinyText from '@/components/ui/shiny-text';
 
 const ContactUsComponent = () => {
   const messageSchema = Yup.object().shape({
@@ -41,7 +42,7 @@ const ContactUsComponent = () => {
 
   return (
     <section
-      id='whyUs'
+      id='contact'
       className='py-24 max-w-7xl mx-auto px-5 sm:px-6 lg:px-8'
     >
       <FormProvider
@@ -60,9 +61,12 @@ const ContactUsComponent = () => {
             <h2 className='text-3xl font-bold sm:text-4xl text-white'>
               CONTACT US
             </h2>
-            <p className='mt-4 text-neutral-400'>
-              Contact us Today and Unlock the Power of Video Content Creation
-            </p>
+            <ShinyText
+              text='Contact us Today and Unlock the Power of Video Content Creation'
+              disabled={false}
+              speed={3}
+              className='mt-4 max-w-2xl mx-auto text-sm md:text-base'
+            />
           </motion.div>
         </div>
         <motion.div

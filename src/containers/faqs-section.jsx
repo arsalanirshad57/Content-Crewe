@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import ShinyText from '@/components/ui/shiny-text';
 
 const faqsData = [
   {
@@ -76,10 +77,13 @@ export function FaqsSection() {
           className='text-center'
         >
           <h2 className='text-3xl font-bold sm:text-4xl text-white '>FAQS</h2>
-          <p className='mt-4 text-neutral-400'>
-            Browse our FAQ&apos;s to find answers about our video creation
-            services
-          </p>
+          <ShinyText
+            text="Browse our FAQ's to find answers about our video creation
+            services"
+            disabled={false}
+            speed={3}
+            className='mt-4 max-w-2xl mx-auto text-sm md:text-base'
+          />
         </motion.div>
 
         <motion.div

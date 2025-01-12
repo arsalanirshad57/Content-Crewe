@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
 import { getAuth, signOut } from 'firebase/auth';
 import { auth } from '@/config/firebase';
+
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null);
@@ -16,7 +17,7 @@ export function Navbar() {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       setUser(currentUser);
     });
-    return () => unsubscribe(); 
+    return () => unsubscribe();
   }, []);
 
   const handleLogout = async () => {
@@ -52,7 +53,11 @@ export function Navbar() {
                 Contact
               </Link>
               {user ? (
-                <Button variant='ghost' className='text-sm' onClick={handleLogout}>
+                <Button
+                  variant='ghost'
+                  className='text-sm'
+                  onClick={handleLogout}
+                >
                   Logout
                 </Button>
               ) : (
@@ -78,7 +83,11 @@ export function Navbar() {
               onClick={() => setIsOpen(!isOpen)}
               className='inline-flex items-center justify-center  text-white'
             >
-              {isOpen ? <X className='h-6 w-6' /> : <Menu className='h-6 w-6' />}
+              {isOpen ? (
+                <X className='h-6 w-6' />
+              ) : (
+                <Menu className='h-6 w-6' />
+              )}
             </Button>
           </div>
         </div>

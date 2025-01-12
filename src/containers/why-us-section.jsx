@@ -1,5 +1,6 @@
 'use client';
 
+import ShinyText from '@/components/ui/shiny-text';
 import { motion } from 'framer-motion';
 import { Headset, ShieldHalf, CalendarCheck } from 'lucide-react';
 
@@ -15,9 +16,12 @@ export function WhyUsSection() {
           className='text-center'
         >
           <h2 className='text-3xl font-bold sm:text-4xl text-white'>Why Us</h2>
-          <p className='mt-4 text-neutral-400'>
-            Why Choose Us for Your Video Content Creation Needs?
-          </p>
+          <ShinyText
+            text=' Why Choose Us for Your Video Content Creation Needs?'
+            disabled={false}
+            speed={3}
+            className='mt-4 max-w-2xl mx-auto text-sm md:text-base'
+          />
         </motion.div>
 
         <div className='mt-20 grid gap-8 lg:grid-cols-3'>
