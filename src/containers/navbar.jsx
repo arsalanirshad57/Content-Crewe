@@ -10,12 +10,14 @@ import { auth } from '@/config/firebase';
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const auth = getAuth();
     setUser(auth.currentUser);
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       setUser(currentUser);
+      setLoading(false); 
     });
     return () => unsubscribe();
   }, []);
@@ -40,7 +42,6 @@ export function Navbar() {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
           <div className='hidden md:block'>
             <div className='ml-10 flex items-center space-x-8 text-white'>
               <Link href='#pricing' className='text-sm hover:text-white/80'>
@@ -52,30 +53,31 @@ export function Navbar() {
               <Link href='#contact' className='text-sm hover:text-white/80'>
                 Contact
               </Link>
-              {user ? (
-                <Button
-                  variant='ghost'
-                  className='text-sm'
-                  onClick={handleLogout}
-                >
-                  Logout
-                </Button>
-              ) : (
-                <>
-                  <Link href='/auth/login'>
-                    <Button variant='ghost' className='text-sm'>
-                      Login
-                    </Button>
-                  </Link>
-                  <Link href='/auth/signup'>
-                    <Button className='w-full'>Sign Up</Button>
-                  </Link>
-                </>
+              {!loading && ( 
+                user ? (
+                  <Button
+                    variant='ghost'
+                    className='text-sm'
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                ) : (
+                  <>
+                    <Link href='/auth/login'>
+                      <Button variant='ghost' className='text-sm'>
+                        Login
+                      </Button>
+                    </Link>
+                    <Link href='/auth/signup'>
+                      <Button className='w-full'>Sign Up</Button>
+                    </Link>
+                  </>
+                )
               )}
             </div>
           </div>
 
-          {/* Mobile menu button */}
           <div className='md:hidden'>
             <Button
               variant='ghost'
@@ -114,32 +116,34 @@ export function Navbar() {
             >
               Contact
             </Link>
-            {user ? (
-              <Button
-                variant='ghost'
-                className='w-full justify-start text-white text-base'
-                onClick={handleLogout}
-              >
-                Logout
-              </Button>
-            ) : (
-              <>
-                <div className='px-3 py-2'>
-                  <Link href='/auth/login'>
-                    <Button
-                      variant='ghost'
-                      className='w-full justify-start text-white text-base'
-                    >
-                      Login
-                    </Button>
-                  </Link>
-                </div>
-                <div className='px-3 py-2'>
-                  <Link href='/auth/signup'>
-                    <Button className='w-full'>Sign Up</Button>
-                  </Link>
-                </div>
-              </>
+            {!loading && ( 
+              user ? (
+                <Button
+                  variant='ghost'
+                  className='w-full justify-start text-white text-base'
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              ) : (
+                <>
+                  <div className='px-3 py-2'>
+                    <Link href='/auth/login'>
+                      <Button
+                        variant='ghost'
+                        className='w-full justify-start text-white text-base'
+                      >
+                        Login
+                      </Button>
+                    </Link>
+                  </div>
+                  <div className='px-3 py-2'>
+                    <Link href='/auth/signup'>
+                      <Button className='w-full'>Sign Up</Button>
+                    </Link>
+                  </div>
+                </>
+              )
             )}
           </div>
         </div>

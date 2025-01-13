@@ -9,6 +9,9 @@ import { X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { getStartFormSchema } from './get-started.constant';
+import { addDoc, collection } from 'firebase/firestore';
+import { database } from '@/config/firebase';
+import { toast } from 'sonner';
 
 export const GetStartedModal = ({
   open,
@@ -47,9 +50,23 @@ export const GetStartedModal = ({
     }
   }, [selectedPlan, title, user, reset]);
 
-  const onSubmit = (data) => {
-    console.log('Form Submitted:', data);
+  const onSubmit = async (data) => {
+    try {
+      const docRef = await addDoc(collection(database, "Growth-Path"), {
+        name: data.name,
+        email: data.email,
+        message: data.message,
+        price: data.price,
+        title: data.packageName, 
+        type: data.planName, 
+      });
+      toast.success("Message Sent Successfully");
+      reset(); 
+    } catch (error) {
+      toast.error(error);
+    }
   };
+  
 
   return (
     <Modal className='p-0' open={open} onClose={onClose} overlay>
