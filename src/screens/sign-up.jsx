@@ -10,6 +10,9 @@ import * as Yup from 'yup';
 import { motion } from 'framer-motion';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/config/firebase';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+
 
 const SignUpSchema = Yup.object().shape({
   fullName: Yup.string().required('Full Name is required'),
@@ -25,6 +28,7 @@ const SignUpSchema = Yup.object().shape({
 });
 
 export const SignUpScreen = React.memo(() => {
+
   const methods = useForm({
     resolver: yupResolver(SignUpSchema),
     defaultValues: {
@@ -40,17 +44,21 @@ export const SignUpScreen = React.memo(() => {
     formState: { errors },
   } = methods;
 
+
+  const router = useRouter();
+
   const onSubmit = (data) => {
     const { email, password } = data;
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         toast.success('user Register Sucessfully');
+        router.push('/'); 
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        toast.error(errorMessage);
+        toast.error(errorMessage)
       });
   };
 

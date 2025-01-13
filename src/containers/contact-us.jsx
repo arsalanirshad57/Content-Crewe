@@ -9,7 +9,9 @@ import * as Yup from 'yup';
 import RHFInput from '@/components/ui/rhf-input';
 import { Button } from '@/components/ui/button';
 import ShinyText from '@/components/ui/shiny-text';
-
+import { database } from '@/config/firebase';
+import { addDoc, collection } from 'firebase/firestore';
+import { toast } from 'sonner';
 const ContactUsComponent = () => {
   const messageSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
@@ -34,11 +36,18 @@ const ContactUsComponent = () => {
 
   const onSubmit = async (data) => {
     try {
-      reset();
+      const docRef = await addDoc(collection(database, "contact"), {
+        name: data.name,
+        email: data.email,
+        message: data.message,
+      });
+      toast.success('Message Sent Sucessfully')
+      reset(); 
     } catch (error) {
-      console.log('FAILED...', error.text);
+     toast.error(error)
     }
   };
+  
 
   return (
     <section
