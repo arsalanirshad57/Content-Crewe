@@ -1,13 +1,13 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import FormProvider from '@/components/ui/form-provider';
-import { Modal } from '@/components/ui/modal';
 import RHFInput from '@/components/ui/rhf-input';
 import { RHFTextArea } from '@/components/ui/textarea';
-import { X } from 'lucide-react';
+import { ModalSheet } from '@/components/ui/modal-sheet';
+import { ShieldHalf } from 'lucide-react';
 
-export const GetStartedModal = ({
+export const CustomTeamModalSheet = ({
   open,
   onClose,
   selectedPackage,
@@ -17,20 +17,19 @@ export const GetStartedModal = ({
   methods,
   isLoading,
 }) => {
-  const { title, icon } = selectedPackage;
-  const Icon = icon;
-
   return (
-    <Modal className='p-0' open={open} onClose={onClose} overlay>
+    <ModalSheet
+      className='h-[428px]'
+      open={open}
+      snapPoints={['75px', '450px']}
+      onClose={onClose}
+    >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <div className='flex justify-between items-center border-b border-white/20 px-5 py-3 w-full'>
-          <div
-            className='flex items-center justify-center w-full space-x-2'
-            onClick={onClose}
-          >
-            <Icon className='w-5 h-5 text-neutral-200' />
-            <h4 className='text-neutral-100 text-sm md:text-lg font-medium'>
-              {title}&apos;s {selectedPlan?.name}
+        <div className='flex justify-between items-center border-b border-white/20 w-full text-neutral-400'>
+          <div className='flex items-center justify-center space-x-2 py-4 w-full'>
+            <ShieldHalf className='w-5 h-5 mr-2' />
+            <h4 className='text-neutral-100 text-base font-medium'>
+              Build Your Custom Team
             </h4>
           </div>
         </div>
@@ -42,20 +41,25 @@ export const GetStartedModal = ({
           <div className='flex gap-3'>
             <RHFInput
               type='text'
-              readOnly={true}
+              readOnly
               name='packageName'
-              placeholder='Enter Package Name'
+              placeholder='Package Name'
+              value={selectedPackage?.title || ''}
             />
             <RHFInput
-              readOnly={true}
               type='text'
+              readOnly
               name='planName'
-              placeholder='Enter Plan Name'
+              placeholder='Plan Name'
+              value={selectedPlan?.name || ''}
             />
           </div>
-
-          <RHFInput name='price' placeholder='Price' readOnly={true} />
-
+          <RHFInput
+            name='price'
+            placeholder='Price'
+            readOnly
+            value={selectedPlan?.price || ''}
+          />
           <RHFTextArea name='message' placeholder='Message' />
           <div className='flex gap-2 self-end'>
             <Button
@@ -77,6 +81,6 @@ export const GetStartedModal = ({
           </div>
         </div>
       </FormProvider>
-    </Modal>
+    </ModalSheet>
   );
 };

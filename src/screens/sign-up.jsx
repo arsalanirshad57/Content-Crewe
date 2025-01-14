@@ -13,7 +13,6 @@ import { auth } from '@/config/firebase';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
-
 const SignUpSchema = Yup.object().shape({
   fullName: Yup.string().required('Full Name is required'),
   email: Yup.string()
@@ -28,6 +27,7 @@ const SignUpSchema = Yup.object().shape({
 });
 
 export const SignUpScreen = React.memo(() => {
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const methods = useForm({
     resolver: yupResolver(SignUpSchema),
@@ -44,21 +44,24 @@ export const SignUpScreen = React.memo(() => {
     formState: { errors },
   } = methods;
 
-
   const router = useRouter();
 
   const onSubmit = (data) => {
+    setIsLoading(true);
     const { email, password } = data;
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         toast.success('user Register Sucessfully');
-        router.push('/'); 
+        router.push('/');
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        toast.error(errorMessage)
+        toast.error(errorMessage);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -133,7 +136,9 @@ export const SignUpScreen = React.memo(() => {
               label='Confirm Password'
               error={errors.confirmPassword?.message}
             />
-            <Button type='submit'>Sign Up</Button>
+            <Button type='submit' loading={isLoading}>
+              Sign Up
+            </Button>
           </FormProvider>
         </motion.div>
 
@@ -145,7 +150,7 @@ export const SignUpScreen = React.memo(() => {
           viewport={{ once: true }}
         >
           <p className='text-sm text-center text-neutral-600'>
-            Already have an account?{' '}
+            Already have an account?
             <Link href='/auth/login' className='text-gray-200 hover:underline'>
               Login
             </Link>
