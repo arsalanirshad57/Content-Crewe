@@ -7,6 +7,8 @@ import { useMediaQuery } from '@/hooks';
 import { CustomTeamModal } from './custom-team.modal';
 import { CustomTeamModalSheet } from './custom-team.sheet';
 import { CustomTeamSchema } from './custom-team.constant';
+import { addDoc, collection } from 'firebase/firestore';
+import { database } from '@/config/firebase';
 
 export const CustomTeamForm = ({ open, onClose, user }) => {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -44,7 +46,15 @@ export const CustomTeamForm = ({ open, onClose, user }) => {
   const onSubmit = async (data) => {
     try {
       setIsLoading(true);
-      console.log('data:', data);
+      const docRef = await addDoc(collection(database, 'custom-team'), {
+        name: data.name,
+        email: data.email,
+        numberofEditors: data.editors,
+        numberofGraphicdesigner: data.graphicDesigners,
+        numberofContentStrategis: data.contentStrategists,
+        socialLink: data.socialMediaLink,
+        messages:data.message
+      });
 
       toast.success('Message Sent Successfully');
       reset();
