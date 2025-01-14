@@ -5,35 +5,31 @@ import FormProvider from '@/components/ui/form-provider';
 import { Modal } from '@/components/ui/modal';
 import RHFInput from '@/components/ui/rhf-input';
 import { RHFTextArea } from '@/components/ui/textarea';
-import { X } from 'lucide-react';
+import { ShieldHalf, X } from 'lucide-react';
 
-export const GetStartedModal = ({
+export const CustomTeamModal = ({
   open,
   onClose,
-  selectedPackage,
-  selectedPlan,
   onSubmit,
   handleSubmit,
   methods,
   isLoading,
 }) => {
-  const { title, icon } = selectedPackage;
-  const Icon = icon;
-
   return (
     <Modal className='p-0' open={open} onClose={onClose} overlay>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <div className='flex justify-between items-center border-b border-white/20 px-5 py-3 w-full'>
+        <div className='flex justify-between items-center border-b border-white/20 px-5 py-2 w-full'>
           <div
             className='flex items-center justify-center w-full space-x-2'
             onClick={onClose}
           >
-            <Icon className='w-5 h-5 text-neutral-200' />
-            <h4 className='text-neutral-100 text-sm md:text-lg font-medium'>
-              {title}&apos;s {selectedPlan?.name}
+            <ShieldHalf className='w-5 h-5 text-neutral-200' />
+            <h4 className='text-neutral-100 text-base font-medium'>
+              Build Your Custom Team
             </h4>
           </div>
         </div>
+
         <div className='flex flex-col gap-3 p-5'>
           <div className='flex gap-3'>
             <RHFInput name='name' type='text' placeholder='Enter Full Name' />
@@ -41,20 +37,29 @@ export const GetStartedModal = ({
           </div>
           <div className='flex gap-3'>
             <RHFInput
-              type='text'
-              readOnly={true}
-              name='packageName'
-              placeholder='Enter Package Name'
+              type='number'
+              name='editors'
+              placeholder='Enter No of Editors'
             />
             <RHFInput
-              readOnly={true}
-              type='text'
-              name='planName'
-              placeholder='Enter Plan Name'
+              type='number'
+              name='graphicDesigners'
+              placeholder='Enter No of Graphic Designers'
             />
           </div>
 
-          <RHFInput name='price' placeholder='Price' readOnly={true} />
+          <div className='flex gap-3'>
+            <RHFInput
+              type='number'
+              name='contentStrategist'
+              placeholder='Enter No of Content Strategist'
+            />
+            <RHFInput
+              type='number'
+              name='socialMediaLink'
+              placeholder='Enter Any Social Media Link'
+            />
+          </div>
 
           <RHFTextArea name='message' placeholder='Message' />
           <div className='flex gap-2 self-end'>

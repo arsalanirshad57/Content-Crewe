@@ -3,7 +3,6 @@ import { cn } from '@/lib/utils';
 import * as Dialog from '@radix-ui/react-dialog';
 
 export const Modal = ({ open, onClose, className, children, overlay }) => {
-  
   const onOpenChange = React.useCallback(
     (isOpen) => {
       if (isOpen) return;

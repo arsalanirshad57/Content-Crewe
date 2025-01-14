@@ -6,30 +6,30 @@ import { Modal } from '@/components/ui/modal';
 import RHFInput from '@/components/ui/rhf-input';
 import { RHFTextArea } from '@/components/ui/textarea';
 import { ShieldHalf, X } from 'lucide-react';
-import { useForm, useFormContext } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 
-export const CustomTeamModal = ({ open, onClose, user }) => {
-  const methods = useFormContext();
-
-  const onSubmit = (data) => {
-    console.log('Form Submitted:', data);
-  };
-
+export const CustomTeamModal = ({
+  open,
+  onClose,
+  onSubmit,
+  handleSubmit,
+  methods,
+  isLoading,
+}) => {
   return (
     <Modal className='p-0' open={open} onClose={onClose} overlay>
-      <FormProvider methods={methods}>
-        <div className='flex justify-between items-center border-b border-white/20 px-5 py-2 w-full'>
-          <div className='flex items-center space-x-2'>
-            <ShieldHalf className='w-5 h-5 mr-2' />
-            <h4 className='text-neutral-100 text-sm md:text-lg font-medium'>
-              Custom Team
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <div className='flex justify-between items-center border-b border-white/20 px-5 py-3 w-full'>
+          <div
+            className='flex items-center justify-center w-full space-x-2'
+            onClick={onClose}
+          >
+            <ShieldHalf className='w-5 h-5 text-neutral-200' />
+            <h4 className='text-neutral-100 text-base font-medium'>
+              Build Your Custom Team
             </h4>
           </div>
-          <span className='bg-neutral-800/50 text-neutral-400 hover:bg-neutral-800 rounded-full cursor-pointer p-2'>
-            <X size={15} />
-          </span>
         </div>
+
         <div className='flex flex-col gap-3 p-5'>
           <div className='flex gap-3'>
             <RHFInput name='name' type='text' placeholder='Enter Full Name' />
@@ -37,24 +37,46 @@ export const CustomTeamModal = ({ open, onClose, user }) => {
           </div>
           <div className='flex gap-3'>
             <RHFInput
-              type='text'
-              readOnly={true}
-              name='packageName'
-              placeholder='Enter Package Name'
+              type='number'
+              name='editors'
+              placeholder='Enter No of Editors'
             />
             <RHFInput
-              readOnly={true}
-              type='text'
-              name='planName'
-              placeholder='Enter Plan Name'
+              type='number'
+              name='graphicDesigners'
+              placeholder='Enter No of Graphic Designers'
             />
           </div>
 
-          <RHFInput name='price' placeholder='Price' readOnly={true} />
+          <div className='flex gap-3'>
+            <RHFInput
+              type='number'
+              name='contentStrategists'
+              placeholder='Enter No of Content Strategist'
+            />
+            <RHFInput
+              type='text'
+              name='socialMediaLink'
+              placeholder='Enter Any Social Media Link'
+            />
+          </div>
 
           <RHFTextArea name='message' placeholder='Message' />
-          <div className='self-end'>
-            <Button size='sm' className='w-fit' type='submit'>
+          <div className='flex gap-2 self-end'>
+            <Button
+              size='sm'
+              variant='ghost'
+              onClick={onClose}
+              className='w-fit'
+            >
+              Close
+            </Button>
+            <Button
+              size='sm'
+              loading={isLoading}
+              className='w-fit'
+              type='submit'
+            >
               Submit
             </Button>
           </div>

@@ -58,6 +58,9 @@ module.exports = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      boxShadow: {
+        sheet: '0px -17px 110px rgba(163, 163, 163, 0.27) ',
+      },
       keyframes: {
         'accordion-down': {
           from: {

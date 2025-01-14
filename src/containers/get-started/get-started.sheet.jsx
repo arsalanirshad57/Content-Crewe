@@ -1,70 +1,41 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import FormProvider from '@/components/ui/form-provider';
-import { Modal } from '@/components/ui/modal';
 import RHFInput from '@/components/ui/rhf-input';
 import { RHFTextArea } from '@/components/ui/textarea';
-import { X } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { getStartFormSchema } from './get-started.constant';
 import { ModalSheet } from '@/components/ui/modal-sheet';
 
-export const GetStartedModal = ({
+export const GetStartedModalSheet = ({
   open,
   onClose,
+  onOpenChange,
   selectedPackage,
   selectedPlan,
-  user,
+  onSubmit,
+  handleSubmit,
+  methods,
+  isLoading,
 }) => {
-  const { title, icon } = selectedPackage;
-  const Icon = icon;
-
-  const methods = useForm({
-    resolver: yupResolver(getStartFormSchema),
-    defaultValues: {
-      name: user?.name || '',
-      email: user?.email || '',
-      packageName: title || '',
-      planName: selectedPlan?.name || '',
-      price: `$${selectedPlan?.price}` || '',
-      message: '',
-    },
-  });
-
-  const { handleSubmit, reset } = methods;
-
-  useEffect(() => {
-    if (selectedPlan?.name || title) {
-      reset({
-        name: user?.name || '',
-        email: user?.email || '',
-        packageName: title || '',
-        planName: selectedPlan?.name || '',
-        price: `$${selectedPlan?.price}` || '',
-        message: '',
-      });
-    }
-  }, [selectedPlan, title, user, reset]);
-
-  const onSubmit = (data) => {
-    console.log('Form Submitted:', data);
-  };
+  const { title, icon: Icon } = selectedPackage || {};
 
   return (
-    <ModalSheet className='p-0' open={open} onClose={onClose} overlay>
+    <ModalSheet
+      className='h-[428px]'
+      open={open}
+      snapPoints={['75px', '450px']}
+      onClose={onClose}
+      onOpenChange={onOpenChange}
+      overlay
+    >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <div className='flex justify-between items-center border-b border-white/20 px-5 py-2 w-full'>
-          <div className='flex items-center space-x-2' onClick={onClose}>
-            <Icon className='w-5 h-5 text-neutral-200' />
-            <h4 className='text-neutral-100 text-sm md:text-lg font-medium'>
+        <div className='flex justify-between items-center border-b border-white/20 w-full text-neutral-400'>
+          <div className='flex items-center justify-center space-x-2 py-4 w-full'>
+            {Icon && <Icon className='w-5 h-5 text-neutral-200' />}
+            <h4 className='text-neutral-100 text-base font-medium'>
               {title}&apos;s {selectedPlan?.name}
             </h4>
           </div>
-          <span className='bg-neutral-800/50 text-neutral-400 hover:bg-neutral-800 rounded-full cursor-pointer p-2'>
-            <X size={15} />
-          </span>
         </div>
         <div className='flex flex-col gap-3 p-5'>
           <div className='flex gap-3'>
@@ -74,23 +45,41 @@ export const GetStartedModal = ({
           <div className='flex gap-3'>
             <RHFInput
               type='text'
-              readOnly={true}
+              readOnly
               name='packageName'
-              placeholder='Enter Package Name'
+              placeholder='Package Name'
+              value={selectedPackage?.title || ''}
             />
             <RHFInput
-              readOnly={true}
               type='text'
+              readOnly
               name='planName'
-              placeholder='Enter Plan Name'
+              placeholder='Plan Name'
+              value={selectedPlan?.name || ''}
             />
           </div>
-
-          <RHFInput name='price' placeholder='Price' readOnly={true} />
-
+          <RHFInput
+            name='price'
+            placeholder='Price'
+            readOnly
+            value={selectedPlan?.price || ''}
+          />
           <RHFTextArea name='message' placeholder='Message' />
-          <div className='self-end'>
-            <Button size='sm' className='w-fit' type='submit'>
+          <div className='flex gap-2 self-end'>
+            <Button
+              size='sm'
+              variant='ghost'
+              onClick={onClose}
+              className='w-fit'
+            >
+              Close
+            </Button>
+            <Button
+              size='sm'
+              loading={isLoading}
+              className='w-fit'
+              type='submit'
+            >
               Submit
             </Button>
           </div>

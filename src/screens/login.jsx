@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { motion } from 'framer-motion';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/config/firebase';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -21,6 +21,8 @@ const LoginSchema = Yup.object().shape({
 });
 
 export const LoginScreen = React.memo(() => {
+  const [isLoading, setIsLoading] = React.useState(false);
+
   const methods = useForm({
     resolver: yupResolver(LoginSchema),
     defaultValues: {
@@ -34,21 +36,25 @@ export const LoginScreen = React.memo(() => {
     formState: { errors },
   } = methods;
 
-  const router = useRouter(); 
+  const router = useRouter();
 
   const onSubmit = (data) => {
-    const { email, password } = data; 
+    setIsLoading(true);
+    const { email, password } = data;
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         console.log('Logged in user:', user);
-        toast.success('user Login Sucessfully')
-        router.push('/'); 
+        toast.success('user Login Sucessfully');
+        router.push('/');
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        toast.error(errorMessage)
+        toast.error(errorMessage);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -96,16 +102,18 @@ export const LoginScreen = React.memo(() => {
               name='email'
               placeholder='Enter your Email'
               label='Email'
-              error={errors.email?.message} 
+              error={errors.email?.message}
             />
             <RHFInput
               name='password'
               type='password'
               placeholder='Enter your Password'
               label='Password'
-              error={errors.password?.message} 
+              error={errors.password?.message}
             />
-            <Button type='submit'>Login</Button>
+            <Button type='submit' loading={isLoading}>
+              Login
+            </Button>
           </FormProvider>
         </motion.div>
         <motion.div

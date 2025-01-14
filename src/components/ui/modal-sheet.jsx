@@ -16,39 +16,45 @@ export const ModalSheet = ({
   skipHandle,
   snapPoints = [SnapPoints.Initial, SnapPoints.Opened],
   className,
+  onClose,
+  skipOverlay,
 }) => {
-  React.useLayoutEffect(() => {
-    document.addEventListener('focusin', (e) => e.stopImmediatePropagation());
-    document.addEventListener('focusout', (e) => e.stopImmediatePropagation());
-  }, []);
+  const drawerRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const outsideClickHandler = (e) => {
+      if (drawerRef.current && !drawerRef.current.contains(e.target)) {
+        onClose();
+        console.log(onClose);
+      }
+    };
+    document.addEventListener('mousedown', outsideClickHandler);
+    return () => {
+      document.removeEventListener('mousedown', outsideClickHandler);
+    };
+  }, [onClose]);
 
   return (
     <Drawer.Root
       defaultOpen={defaultOpen}
       open={open}
-      handleOnly
-      dismissible={false}
-      modal={false}
       snapPoints={snapPoints}
       repositionInputs={false}
     >
       <Drawer.Portal>
+        {!skipOverlay && (
+          <Drawer.Overlay className='fixed inset-0 backdrop-blur-sm' />
+        )}
         <Drawer.Content
+          ref={drawerRef}
           className={cn(
-            'bg-white fixed bottom-0 left-0 right-0 outline-none shadow-sheet rounded-t-2xl h-full !z-50 overflow-hidden',
-            !skipHandle && 'px-5'
+            'border border-white/10 bg-black fixed bottom-0 left-0 right-0 outline-none shadow-sheet rounded-t-2xl h-full !z-50 overflow-hidden'
           )}
         >
           {!skipHandle && (
-            <Drawer.Handle className='mt-4 !bg-[#daa0fe] cursor-grab' />
+            <Drawer.Handle className='mt-4 !bg-neutral-400 hover:!bg-neutral-500 cursor-grab' />
           )}
-          <Scrollable
-            className={cn(
-              'h-fit',
-              className,
-              !skipHandle ? 'py-5' : 'px-5 py-4'
-            )}
-          >
+          <Scrollable className={cn('h-fit !p-0', className)}>
             {children}
           </Scrollable>
         </Drawer.Content>

@@ -7,14 +7,16 @@ import { cn } from '@/lib/utils';
 import ShinyText from '@/components/ui/shiny-text';
 import { pricingData } from '@/constants';
 import { UseToggleState } from '@/hooks';
-import { GetStartedModal } from './get-started';
+import { GetStartedForm } from './get-started';
 import { getAuth } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
+import { CustomTeamForm } from './custom-team';
 
 export function PricingSection() {
   const [selectedTab, setSelectedTab] = React.useState(pricingData[0]?.id);
   const [selectedPlan, setSelectedPlan] = React.useState();
   const [isGetStartModalOpen, toggleGetStartModal] = UseToggleState();
+  const [openCustomTeamModal, toggleCustomTeamModal] = UseToggleState();
   const [user, setUser] = React.useState(null);
   const router = useRouter();
 
@@ -24,20 +26,28 @@ export function PricingSection() {
 
   const handleGetStarted = React.useCallback(
     (id) => {
-      // if (!user) {
-      //   router.push('/auth/login');
-      // } else {
-      const selectedPackagePlan = selectedPackage?.plans?.find(
-        (plan) => plan?.id === id
-      );
-      if (selectedPackagePlan) {
-        setSelectedPlan(selectedPackagePlan);
-        toggleGetStartModal();
+      if (!user) {
+        router.push('/auth/login');
+      } else {
+        const selectedPackagePlan = selectedPackage?.plans?.find(
+          (plan) => plan?.id === id
+        );
+        if (selectedPackagePlan) {
+          setSelectedPlan(selectedPackagePlan);
+          toggleGetStartModal();
+        }
       }
-      // }
     },
     [toggleGetStartModal, selectedPackage, user, router]
   );
+
+  const handleOpenTeamMoal = React.useCallback(() => {
+    if (!user) {
+      router.push('/auth/login');
+    } else {
+      toggleCustomTeamModal();
+    }
+  }, [user, router, toggleCustomTeamModal]);
 
   React.useEffect(() => {
     const auth = getAuth();
@@ -99,6 +109,7 @@ export function PricingSection() {
                 );
               })}
               <button
+                onClick={handleOpenTeamMoal}
                 className={cn(
                   'flex items-center px-4 md:px-6 py-2 md:py-3 text-sm  rounded-full transition-all duration-200 bg-neutral-800/50 text-neutral-400 hover:bg-neutral-800'
                 )}
@@ -170,11 +181,16 @@ export function PricingSection() {
           </AnimatePresence>
         </div>
       </section>
-      <GetStartedModal
+      <GetStartedForm
         open={isGetStartModalOpen}
         onClose={toggleGetStartModal}
         selectedPackage={selectedPackage}
         selectedPlan={selectedPlan}
+        user={user}
+      />
+      <CustomTeamForm
+        open={openCustomTeamModal}
+        onClose={toggleCustomTeamModal}
         user={user}
       />
     </React.Fragment>

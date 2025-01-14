@@ -16,10 +16,10 @@ export default function RootLayout({ children }) {
       <body
         className={`bg-gradient-to-t from-neutral-900 via-neutral-950 to-neutral-950 ${inter.className}`}
       >
-        <Toaster/>
-        <Scrollable>
-          <main>{children}</main>
-        </Scrollable>
+        <Toaster />
+        <main>
+          <Scrollable>{children}</Scrollable>
+        </main>
       </body>
     </html>
   );
