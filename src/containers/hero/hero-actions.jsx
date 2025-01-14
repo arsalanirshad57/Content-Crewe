@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export function HeroActions() {
   return (
@@ -11,9 +12,11 @@ export function HeroActions() {
       transition={{ delay: 0.5, duration: 0.5 }}
       className='mt-10 flex items-center justify-center gap-4'
     >
-      <Button size='lg' className=''>
-        Book a call
-      </Button>
+      <Link href='#bookCall'>
+        <Button size='lg' className=''>
+          Book a call
+        </Button>
+      </Link>
     </motion.div>
   );
 }

@@ -12,7 +12,10 @@ import ShinyText from '@/components/ui/shiny-text';
 import { database } from '@/config/firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import { toast } from 'sonner';
+
 const ContactUsComponent = () => {
+  const [isLoading, setIsLoading] = React.useState(false);
+
   const messageSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     email: Yup.string()
@@ -35,19 +38,21 @@ const ContactUsComponent = () => {
   const { reset, handleSubmit } = methods;
 
   const onSubmit = async (data) => {
+    setIsLoading(true);
     try {
-      const docRef = await addDoc(collection(database, "contact"), {
+      const docRef = await addDoc(collection(database, 'contact'), {
         name: data.name,
         email: data.email,
         message: data.message,
       });
-      toast.success('Message Sent Sucessfully')
-      reset(); 
+      toast.success('Message Sent Sucessfully');
+      reset();
     } catch (error) {
-     toast.error(error)
+      toast.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
-  
 
   return (
     <section
@@ -92,7 +97,9 @@ const ContactUsComponent = () => {
             </div>
             <RHFTextArea name='message' rows={10} placeholder='Message' />
             <div className='self-end'>
-              <Button className='w-fit'>Submit</Button>
+              <Button className='w-fit' loading={isLoading}>
+                Submit
+              </Button>
             </div>
           </div>
         </motion.div>

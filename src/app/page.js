@@ -7,6 +7,7 @@ import {
   FaqsSection,
   Navbar,
   Footer,
+  BookCall,
 } from '@/containers';
 import { ContactUs } from '@/containers/contact-us';
 
@@ -18,6 +19,7 @@ export default function Home() {
       <WhyUsSection />
       <PricingSection />
       <FaqsSection />
+      <BookCall />
       <ContactUs />
       <Footer />
     </React.Fragment>

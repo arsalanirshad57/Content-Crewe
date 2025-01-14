@@ -71,6 +71,7 @@ export const GetStartedModalSheet = ({
               variant='ghost'
               onClick={onClose}
               className='w-fit'
+              type='button'
             >
               Close
             </Button>
