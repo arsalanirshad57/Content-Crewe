@@ -7,7 +7,7 @@ import { useMediaQuery } from '@/hooks';
 import { CustomTeamModal } from './custom-team.modal';
 import { CustomTeamModalSheet } from './custom-team.sheet';
 import { CustomTeamSchema } from './custom-team.constant';
-import { addDoc } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
 import { database } from '@/config/firebase';
 
 export const CustomTeamForm = ({ open, onClose, user }) => {
