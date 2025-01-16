@@ -40,7 +40,7 @@ export function HeroHeading() {
         </span>
       </h1>
       <ShinyText
-        text=' Get Started Today and Build Your Future Video Team – Hire the Experts
+        text='Get Started Today and Build Your Future Video Team – Hire the Experts
         You Need to Bring Your Vision to Life!'
         disabled={false}
         speed={3}
