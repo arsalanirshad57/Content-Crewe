@@ -7,7 +7,7 @@ export const BookCall = React.memo(() => {
   return (
     <section
       id='bookCall'
-      className='py-24 px-5 text-neutral-800 calendly-container '
+      className='py-24 text-neutral-800 calendly-container '
     >
       <div className='mx-auto max-w-7xl px-5 sm:px-6 lg:px-8'>
         <motion.div
@@ -33,7 +33,7 @@ export const BookCall = React.memo(() => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           viewport={{ once: true }}
-          className=' mt-4'
+          className='mt-4'
         >
           <InlineWidget
             url='https://calendly.com/your-username'
