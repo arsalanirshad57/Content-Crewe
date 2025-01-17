@@ -161,7 +161,7 @@ export function PricingSection() {
                     {plan.features.map((feature, i) => (
                       <li key={i} className='flex items-start'>
                         <Check className='w-5 h-5 text-neutral-200 mr-3 mt-0.5 flex-shrink-0' />
-                        <span className='text-neutral-300 text-base'>
+                        <span className='text-neutral-300 text-sm'>
                           {feature}
                         </span>
                       </li>
