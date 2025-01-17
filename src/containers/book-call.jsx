@@ -36,7 +36,7 @@ export const BookCall = React.memo(() => {
           className='mt-4'
         >
           <InlineWidget
-            url='https://calendly.com/your-username'
+            url='https://calendly.com/content-crewe/quick-meeting'
             styles={{
               height: '700px',
               width: '100%',

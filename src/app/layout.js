@@ -10,6 +10,9 @@ export const metadata = {
   title: 'Content Crewe',
   description:
     'Get Started Today and Build Your Future Video Team – Hire the Experts You Need to Bring Your Vision to Life!',
+  icons: {
+    icon: '/logo.png',
+  },
 };
 
 export default function RootLayout({ children }) {
